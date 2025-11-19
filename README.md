@@ -24,7 +24,7 @@ LC4_Simulator_Assembler/
 │   └── obj/                         # sample .obj programs (if provided)
 │
 └── .DS_Store                        # macOS metadata (safe to ignore/remove)
-
+```
 ---
 
 ## Prerequisites
