@@ -1,165 +1,126 @@
-LC4 Simulator & Disassembler
+# LC4 Simulator & Disassembler
 
-This repository contains two related C projects for the LC4 architecture:
+This repository contains two related C projects for the **LC4 architecture**:
 
-project-lc4-simulator: a cycle-accurate LC4 simulator that executes compiled .obj programs.
+- **`project-lc4-simulator`** — a cycle-accurate LC4 simulator that executes compiled `.obj` programs.  
+- **`project-lc4-disassembler-whash`** — a disassembler that converts LC4 `.obj` files back into human-readable LC4 assembly.
 
-project-lc4-disassembler-whash: a disassembler that converts LC4 .obj files back into human-readable LC4 assembly.
+Both projects were originally built for **CIS 2400: Computer Architecture** at the University of Pennsylvania.
 
-Both projects were originally built for CIS 2400 (Computer Architecture) and are structured to work with LC4 .obj files produced by the course toolchain.
+---
 
-Repository Structure
+## Repository Structure
+
 LC4_Simulator_Assembler/
-├── project-lc4-simulator/          # LC4 simulator (C)
-│   ├── Makefile
-│   ├── *.c / *.h                   # core simulator + loader
-│   └── obj/                        # sample .obj programs (if provided)
+├── project-lc4-simulator/ # LC4 simulator (C)
+│ ├── Makefile
+│ ├── *.c / *.h # core simulator + loader
+│ └── obj/ # sample .obj programs (if provided)
+│
 ├── project-lc4-disassembler-whash/ # LC4 disassembler (C)
-│   ├── Makefile
-│   ├── *.c / *.h                   # loader + hashtable + disassembler
-│   └── obj/                        # sample .obj programs (if provided)
-└── .DS_Store                       # macOS metadata (safe to ignore/remove)
+│ ├── Makefile
+│ ├── *.c / *.h # loader + hashtable + disassembler
+│ └── obj/ # sample .obj programs (if provided)
+│
+└── .DS_Store # macOS metadata (safe to ignore/remove)
 
 
-You can work with each project independently by cd-ing into its directory.
+---
 
-Prerequisites
+## Prerequisites
 
-C compiler: gcc or clang
+- C compiler: **gcc** or **clang**
+- **make**
+- LC4 `.obj` files (compiled using the CIS 2400 LC4 toolchain)
 
+Tested on **macOS** and **Linux-style** environments.
+
+---
+
+# LC4 Simulator
+
+## Build
+
+```bash
+cd project-lc4-simulator
 make
 
-LC4 .obj files (e.g., compiled from LC4 assembly using the course tools)
+This produces a simulator executable (e.g., lc4sim, depending on the Makefile).
 
-Tested on macOS / Linux-style environments.
-
-LC4 Simulator
-
-The simulator:
-
-Loads an LC4 .obj file into a simulated memory.
-
-Tracks LC4 registers, program counter, condition codes, and privilege mode.
-
-Decodes and executes instructions (arithmetic, logic, memory, control flow, traps).
-
-Enforces basic privilege checks using code/data segment metadata (e.g., disallowing user mode from executing in data segments).
-
-Optionally writes out an execution trace (PC + instruction + register/memory state) for debugging.
-
-Build
-
-From the project-lc4-simulator directory:
-
-cd project-lc4-simulator
-make            # builds the main simulator binary (e.g., lc4sim)
-
-
-This should produce a simulator executable such as:
-
-./lc4sim
-
-
-(check the Makefile for the exact binary name if it differs).
-
-Usage
-
-Basic usage (single .obj file):
-
+Run
 ./lc4sim path/to/program.obj
 
+Features
 
-Common behavior / features (depending on how you wired the project):
+Loads an LC4 .obj file into simulated memory
 
-HALT: the simulator stops when it executes a HALT/RTI/illegal instruction as defined in the assignment.
+Implements the fetch → decode → execute pipeline
 
-Trace output: some versions write an execution trace file (e.g., trace.txt) showing each cycle’s PC and instruction.
+Supports arithmetic, logic, memory, control flow, and trap instructions
 
-Error handling: prints messages for privilege violations, invalid memory accesses, or unknown opcodes.
+Tracks registers, PC, condition codes, and privilege mode
 
-If your version takes extra flags (e.g., -t for trace), you can document them like:
+Enforces segment-based privilege checks (isCODE, isDATA)
 
-./lc4sim -t trace.txt path/to/program.obj
+Optional execution trace output (if enabled)
 
 LC4 Disassembler
-
-The disassembler:
-
-Parses LC4 .obj files (code, data, and symbol segments).
-
-Stores them in a hashtable of linked lists keyed by memory address / segment.
-
-Walks through the program segment and reverse-assembles each instruction into LC4 assembly mnemonics.
-
-Outputs a readable .asm listing, including labels and data declarations.
-
 Build
-
-From the project-lc4-disassembler-whash directory:
-
 cd project-lc4-disassembler-whash
-make            # builds the disassembler binary (e.g., lc4dis)
+make
 
-
-This should produce a disassembler executable such as:
-
-./lc4dis
-
-
-(again, check the Makefile for the exact binary name).
-
-Usage
-
-Disassemble a single .obj file to stdout:
-
+Run
 ./lc4dis path/to/program.obj
 
+Features
 
-Redirect to a file if you want an .asm output:
+Parses LC4 .obj headers and segments
 
-./lc4dis path/to/program.obj > program_disassembled.asm
+Stores instructions and data using a hashtable with linked lists
 
+Reverse-assembles instructions into readable LC4 assembly
 
-Typical output will include:
+Emits labels from the symbol table
 
-Labels for addresses that appear in the symbol table.
+Prints data using .FILL or .DATA directives
 
-Instructions decoded from opcodes (e.g., ADD, SUB, LDR, STR, BR, JSR, TRAP, etc.).
+Implementation Details
+Simulator Highlights
 
-Data region printed as .DATA / .FILL or similar directives.
+Fully decodes 16-bit LC4 instructions:
 
-Implementation Notes (High-Level)
+ADD, MUL, SUB, AND,
 
-Simulator:
+BR, JMP, JSR,
 
-Implements a fetch–decode–execute loop.
+LDR, STR,
 
-Uses arrays or maps (e.g., isDATA, isCODE) to track memory segment types.
+CONST, HICONST,
 
-Handles LC4 instruction formats:
+TRAP, RTI, etc.
 
-Arithmetic / logic (ADD, MUL, SUB, AND…)
+Updates condition codes (N, Z, P)
 
-Memory access (LDR, STR)
+Supports user/supervisor modes
 
-Control flow (JMP, JSR, BR, RTI)
+Detects illegal instructions and out-of-bounds memory accesses
 
-TRAPs and constants (CONST/HICONST)
+Disassembler Highlights
 
-Updates condition codes and privilege mode according to the spec.
+.obj loader parses:
 
-Disassembler:
+CODE section
 
-Uses a loader to parse .obj headers and sections.
+DATA section
 
-Stores instructions and data in a hashtable with separate chaining (linked lists) indexed by address.
+SYMBOL table
 
-For each program-memory node:
+Hashtable indexing on address for quick access
 
-Decodes the 16-bit instruction into mnemonic + operands.
+Outputs assembly strings for each program node
 
-Formats an assembly string and associates labels where needed.
+Connects symbols to correct addresses for labeling
 
 Acknowledgements
 
-These projects were implemented as part of the CIS 2400: Computer Architecture course at the University of Pennsylvania, targeting the LC4 architecture used in the course.
+These implementations were completed as part of CIS 2400: Computer Architecture at the University of Pennsylvania.
