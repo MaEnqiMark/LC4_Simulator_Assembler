@@ -11,19 +11,19 @@ Both projects were originally built for **CIS 2400: Computer Architecture** at t
 
 ## Repository Structure
 
+```text
 LC4_Simulator_Assembler/
-├── project-lc4-simulator/ # LC4 simulator (C)
-│ ├── Makefile
-│ ├── *.c / *.h # core simulator + loader
-│ └── obj/ # sample .obj programs (if provided)
+├── project-lc4-simulator/           # LC4 simulator (C)
+│   ├── Makefile
+│   ├── *.c / *.h                    # core simulator + loader
+│   └── obj/                         # sample .obj programs (if provided)
 │
-├── project-lc4-disassembler-whash/ # LC4 disassembler (C)
-│ ├── Makefile
-│ ├── *.c / *.h # loader + hashtable + disassembler
-│ └── obj/ # sample .obj programs (if provided)
+├── project-lc4-disassembler-whash/  # LC4 disassembler (C)
+│   ├── Makefile
+│   ├── *.c / *.h                    # loader + hashtable + disassembler
+│   └── obj/                         # sample .obj programs (if provided)
 │
-└── .DS_Store # macOS metadata (safe to ignore/remove)
-
+└── .DS_Store                        # macOS metadata (safe to ignore/remove)
 
 ---
 
