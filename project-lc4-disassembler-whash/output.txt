@@ -1,0 +1,65 @@
+<label>               <address>    <contents>   <assembly>
+                      0x0000       0xF0E0       
+                      0x0001       0xF0FF       
+                      0x0002       0x9403       
+POSITIVE              0x0003       0x164A       MUL R3, R1, R2
+                      0x0004       0xF0FF       
+FAIL                  0x0005       0x0000       
+NEGATIVE              0x0006       0x0000       
+PASS                  0x0007       0x0000       
+                      0x0008       0xF0FF       
+SUBTRACT              0x0009       0x16D3       SUB R3, R3, R3
+                      0x000A       0x0401       
+                      0x000B       0x0000       
+ZERO                  0x000C       0x12D9       DIV R1, R3, R1
+                      0x000D       0x0A01       
+                      0x000E       0x0E01       
+WRONG_END             0x000F       0x1B4D       MUL R5, R5, R5
+END                   0x0010       0x1B45       ADD R5, R5, R5
+                      0x0011       0xF0FF       
+<label>               <address>    <contents>   <assembly>
+TRAP_TEST             0x8020       0x9600       
+                      0x8021       0xD7A0       
+                      0x8022       0x9802       
+                      0x8023       0x78C0       
+                      0x8024       0x64C0       
+                      0x8025       0x0201       
+                      0x8026       0x0000       
+TEST_LDR              0x8027       0x8000       
+BAD_TRAP              0x8028       0x0000       
+TRAP_DRAW_CHECKERS    0x80E0       0x9000       
+                      0x80E1       0xD1C0       
+                      0x80E2       0x9280       
+                      0x80E3       0x947C       
+                      0x80E4       0x9600       
+ROW_LOOP              0x80E5       0x9800       
+COL_LOOP              0x80E6       0x5AE1       AND R5, R3, #1
+                      0x80E7       0x5D21       AND R6, R4, #1
+                      0x80E8       0x5D5E       XOR R6, R5, R6
+                      0x80E9       0x0A0C       
+                      0x80EA       0x9A80       
+                      0x80EB       0x1B4B       MUL R5, R5, R3
+                      0x80EC       0x9C04       
+                      0x80ED       0x1B4E       MUL R5, R5, R6
+                      0x80EE       0x130E       MUL R1, R4, R6
+                      0x80EF       0x1A45       ADD R5, R1, R5
+                      0x80F0       0x1A05       ADD R5, R0, R5
+                      0x80F1       0x9C1F       
+                      0x80F2       0x7D40       
+                      0x80F3       0x7D41       
+                      0x80F4       0x7D42       
+                      0x80F5       0x7D43       
+UPDATE_COL            0x80F6       0x1921       ADD R4, R4, #1
+                      0x80F7       0x9480       
+                      0x80F8       0x2882       
+                      0x80F9       0x0BEC       
+                      0x80FA       0x16E1       ADD R3, R3, #1
+                      0x80FB       0x271F       
+                      0x80FC       0x0401       
+                      0x80FD       0xCFE7       
+CHECKER_END           0x80FE       0x8000       
+HALT                  0x80FF       0x0000       
+                      0x8200       0x9E00       
+                      0x8201       0x8000       
+<label>               <address>    <contents>   <assembly>
+OS_DATA               0xA000       0x0000       
